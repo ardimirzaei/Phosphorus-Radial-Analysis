@@ -78,4 +78,12 @@ ggplot(df,aes(y=RMSD_MAP, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
 
 
 
+ggplot(df,aes(y=KAPPA_HAT, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
+  stat_summary(fun="mean", geom="bar",position="dodge")+
+  stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8) + 
+  coord_cartesian(ylim = c(1.06,1.09)) + 
+  xlab("Alpha Value") + 
+  theme_minimal() + 
+  theme(legend.position = "none")
+
 
