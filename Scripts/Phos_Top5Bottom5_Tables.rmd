@@ -1,0 +1,55 @@
+---
+title: "Summary Tables"
+author: "ArdiMirzaei"
+date: "`r format(Sys.time(), '%d %b %Y')`"
+output: officedown::rdocx_document
+---
+
+```{r setup, echo =FALSE, results = 'asis', message = FALSE, warning = FALSE}
+library(dplyr)
+library(flextable)
+
+```
+# Tables for Top 5 and Bottom 5. 
+
+Tables are filtered for Atom as the phosphate only. 
+
+## Top 5 
+
+```{r top5,echo=FALSE,  message = FALSE, warning = FALSE}
+
+ft <- df %>%
+  mutate(nl =   apply(df[c("n.1.", "n.2.", "n.3.", "n.4.")], 1, paste,collapse="")) %>%
+  filter(ATOM == 'P') %>%
+  group_by(drug, compound, alphavalue) %>%
+  arrange(RMSD_MAP) %>%
+  slice(1:5) %>%
+  select(drug, compound, alphavalue, nl, RMSD_MAP) %>%
+  flextable() %>%
+  theme_box() %>%  
+  merge_v(j = c('drug', 'compound', 'alphavalue'))
+
+ft <- set_caption(ft, caption = "Top 5 scoring RMSD MAP ")
+ft <- autofit(ft) # fit_to_width(ft, max_width = 15) # autofit(ft)
+ft
+```
+
+## Bottom 5 
+
+```{r bottom5,echo=FALSE,  message = FALSE, warning = FALSE}
+
+ft <- df %>%
+  mutate(nl =   apply(df[c("n.1.", "n.2.", "n.3.", "n.4.")], 1, paste,collapse="")) %>%
+  filter(ATOM == 'P') %>%
+  group_by(drug, compound, alphavalue) %>%
+  arrange(RMSD_MAP) %>%
+  slice((n()-5):n()) %>%
+  select(drug, compound, alphavalue, nl, RMSD_MAP) %>%
+  flextable() %>%
+  theme_box() %>%  
+  merge_v(j = c('drug', 'compound', 'alphavalue'))
+
+ft <- set_caption(ft, caption = "Bottom 5 scoring RMSD MAP ")
+ft <- autofit(ft) # fit_to_width(ft, max_width = 15) # autofit(ft)
+ft
+```

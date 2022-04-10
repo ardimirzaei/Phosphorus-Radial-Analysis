@@ -5,6 +5,9 @@ library(ggplot2)
 library(dplyr)
 library(psych) # for describeby
 library(car) #for leven's test
+library(flextable)
+# devtools::install_github("davidgohel/officedown")
+library(officedown)
 
 source('Scripts/Phos_Load_and_Preprocess.R')
 
@@ -12,3 +15,6 @@ source('Scripts/Phos_Alpha_vs_RMSD.R')
 
 
 
+rmarkdown::render(input = 'Scripts/Phos_Top5Bottom5_Tables.rmd',
+                  output_file = paste0('TopAndBottom_Tables_',format(Sys.time(), '%Y%m%d'),'.docx'),
+                  output_dir = 'Analysis/')
