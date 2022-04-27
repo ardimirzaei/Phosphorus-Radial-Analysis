@@ -1,4 +1,5 @@
 
 DataFiles/*
 _Archive/*
+FileMergeOutput/Complete*
 *.Rhistory

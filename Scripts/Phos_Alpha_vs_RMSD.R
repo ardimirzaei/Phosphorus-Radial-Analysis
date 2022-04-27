@@ -30,7 +30,10 @@ rownames(M) <- c("Rf map", "RMSD Map", "Kappa", "Kappa'")
 colnames(testP) <- colnames(M)
 rownames(testP) <- rownames(M)
   
-  
+pdf(paste0("Analysis/CorrelationPlot",format(Sys.time(), '%Y%m%d'),".pdf"),   # The directory you want to save the file in
+    width = 4, # The width of the plot in inches
+    height = 4) # The height of the plot in inches
+
 corrplot(as.matrix(M),
          p.mat = as.matrix(testP),
          number.digits = 3,
@@ -47,6 +50,8 @@ corrplot(as.matrix(M),
          mar=c(0,0,4,0))
 
 mtext("Correlation of alpha value", at=2.5, line=0.2, cex=2)
+
+dev.off()
 
 
 cat("Correlation Analysis tells us not really, but slightly\n\n")
@@ -68,24 +73,31 @@ fit2 = aov(RMSD_MAP ~ as.factor(alphavalue) + n.1. + n.2. + n.3. + n.4., df)
 Anova(fit2, type="III")
 summary(fit2)
 
-ggplot(df,aes(y=RMSD_MAP, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
+g <- ggplot(df,aes(y=RMSD_MAP, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
   stat_summary(fun="mean", geom="bar",position="dodge")+
   stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8) + 
-  coord_cartesian(ylim = c(0.0382,0.0384)) + 
+  # coord_cartesian(ylim = c(0.0382,01.40434)) + 
   xlab("Alpha Value") + 
   ylab("RMSD MAP") + 
   theme_minimal() + 
   theme(legend.position = "none")
 
+ggsave(paste0("RMSDMAP_v_Alpha",format(Sys.time(), '%Y%m%d'),".pdf"), 
+  path = "./Analysis",
+  plot = g, 
+  width=8, height=8)
 
-
-ggplot(df,aes(y=KAPPA_HAT, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
+g <- ggplot(df,aes(y=KAPPA_HAT, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
   stat_summary(fun="mean", geom="bar",position="dodge")+
   stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8) + 
-  coord_cartesian(ylim = c(1.06,1.09)) + 
+  # coord_cartesian(ylim = c(0.88,0.98)) + 
   xlab("Alpha Value") + 
   theme_minimal() + 
   ylab("Kappa Hat Value") + 
   theme(legend.position = "none")
 
 
+ggsave(paste0("KappaHat_v_Alpha",format(Sys.time(), '%Y%m%d'),".pdf"), 
+  path = "./Analysis",
+  plot = g, 
+  width=8, height=8)

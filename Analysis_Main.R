@@ -9,6 +9,9 @@ library(flextable)
 # devtools::install_github("davidgohel/officedown")
 library(officedown)
 
+Sys.setenv(RSTUDIO_PANDOC="C:/Program Files/RStudio/bin/quarto/bin") # Do this in order to find the pandoc and run
+
+# Filtering for P atom from here. 
 source('Scripts/Phos_Load_and_Preprocess.R')
 
 source('Scripts/Phos_Alpha_vs_RMSD.R')
@@ -23,3 +26,7 @@ rmarkdown::render(input = 'Scripts/Phos_Top5Bottom5_Tables.rmd',
 rmarkdown::render(input = 'Scripts/Phos_Rankings_6666_6677.rmd',
                   output_file = paste0('Rankings_6666_6677_',format(Sys.time(), '%Y%m%d'),'.docx'),
                   output_dir = 'Analysis/')
+
+
+# source('Scripts/Gather_and_zip_files.R')
+list.files(pattern = "*bestnl.csv", recursive = TRUE)

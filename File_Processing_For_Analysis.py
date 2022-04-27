@@ -58,6 +58,7 @@ def explore_and_build_table():
     pbar = tqdm(glob('DataFiles/Phos*'),leave = True, position = 0)
     all_bestnls, all_atom_info = loop_through_folders(pbar, all_atom_info, all_bestnls)
     # Because of MOSS folder
+    print("Searching Through MOSS Folder")
     pbar = tqdm(glob('DataFiles/MOSS/Phos*'),leave = True, position = 0)
     all_bestnls, all_atom_info = loop_through_folders(pbar, all_atom_info, all_bestnls)
 
@@ -67,27 +68,27 @@ def explore_and_build_table():
 
 def loop_through_folders(pbar, all_atom_info, all_bestnls):
     for _folder in pbar:
-    if os.path.isdir(_folder):
-        for _compound in os.listdir(_folder):
-            if os.path.isdir(f'{_folder}/{_compound}'):
-                for _alpha_value in os.listdir(f'{_folder}/{_compound}'):
-                    file_location = f'{_folder}/{_compound}/{_alpha_value}'
-                    pbar.set_description(f'{_folder}/{_compound}/{_alpha_value}')
-                    try:
-                        bestnl = pd.read_csv(f'{file_location}/bestnl.csv')
-                        bestnl['drug'] = _folder
-                        bestnl['compound'] = _compound
-                        bestnl['alphavalue'] = _alpha_value
-                        all_bestnls.append(bestnl)
+        if os.path.isdir(_folder):
+            for _compound in os.listdir(_folder):
+                if os.path.isdir(f'{_folder}/{_compound}'):
+                    for _alpha_value in os.listdir(f'{_folder}/{_compound}'):
+                        file_location = f'{_folder}/{_compound}/{_alpha_value}'
+                        pbar.set_description(f'{_folder}/{_compound}/{_alpha_value}')
+                        try:
+                            bestnl = pd.read_csv(f'{file_location}/bestnl.csv')
+                            bestnl['drug'] = _folder
+                            bestnl['compound'] = _compound
+                            bestnl['alphavalue'] = _alpha_value
+                            all_bestnls.append(bestnl)
 
-                        for _std_file in glob(f'{file_location}/xd_stat.out.*'):
-                            pbar.set_description(f'Processing: {_std_file}')
-                            file_number = int(re.findall('\d{0,3}$',_std_file)[0])
-                            atom_info = extract_info_from_outfile(file_number, _folder, _compound, _alpha_value)
-                            all_atom_info.append(atom_info)
+                            for _std_file in glob(f'{file_location}/xd_stat.out.*'):
+                                pbar.set_description(f'Processing: {_std_file}')
+                                file_number = int(re.findall('\d{0,3}$',_std_file)[0])
+                                atom_info = extract_info_from_outfile(file_number, _folder, _compound, _alpha_value)
+                                all_atom_info.append(atom_info)
 
-                    except:
-                        pass
+                        except:
+                            pass
     return all_bestnls, all_atom_info
 
 def export_files():
@@ -115,23 +116,23 @@ def export_files():
     
     print("Exporting Files")
 
-    clean_bestnls.to_csv('File_Output/Complete_Best_Nls.csv', index = False)
-    clean_atom_info.to_csv('File_Output/Complete_Atom_Info.csv', index = False)
+    clean_bestnls.to_csv('FileMergeOutput/Complete_Best_Nls.csv', index = False)
+    clean_atom_info.to_csv('FileMergeOutput/Complete_Atom_Info.csv', index = False)
 
 #%%
 
 # Merge Datasets
 def merge_and_export():
 
-    clean_bestnls = pd.read_csv('File_Output/Complete_Best_Nls.csv')
-    clean_atom_info = pd.read_csv('File_Output/Complete_Atom_Info.csv')
+    clean_bestnls = pd.read_csv('FileMergeOutput/Complete_Best_Nls.csv')
+    clean_atom_info = pd.read_csv('FileMergeOutput/Complete_Atom_Info.csv')
     clean_atom_info.drop_duplicates(subset=['ATOM','KAPPA','KAPPA_HAT','N','drug','compound','alphavalue'], inplace = True)
     print('Merging Datasets')
     full_data_frame = clean_bestnls.merge(clean_atom_info, left_on=['N','drug','compound','alphavalue'], right_on=['N','drug','compound','alphavalue'])
     # print(full_data_frame.head())
     print("Exporting Merge File")
     full_data_frame.corr()
-    full_data_frame.to_csv('File_Output/Full_DataFrame_nl_Atoms.csv')
+    full_data_frame.to_csv('FileMergeOutput/Full_DataFrame_nl_Atoms.csv')
 
 #%%
 
