@@ -59,9 +59,9 @@ cat("Levene's Test:\n")
 leveneTest(RMSD_MAP~as.factor(alphavalue),df)
 
 fit = aov(RMSD_MAP ~ as.factor(alphavalue), df)
-summary(fit)
+print(summary(fit))
 
-describeBy(df$RMSD_MAP, df$alphavalue)
+print(describeBy(df$RMSD_MAP, df$alphavalue))
 
 # Control for n value
 fit2 = aov(RMSD_MAP ~ as.factor(alphavalue) + n.1. + n.2. + n.3. + n.4., df)
@@ -73,6 +73,7 @@ ggplot(df,aes(y=RMSD_MAP, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
   stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8) + 
   coord_cartesian(ylim = c(0.0382,0.0384)) + 
   xlab("Alpha Value") + 
+  ylab("RMSD MAP") + 
   theme_minimal() + 
   theme(legend.position = "none")
 
@@ -84,6 +85,7 @@ ggplot(df,aes(y=KAPPA_HAT, x=as.factor(alphavalue), fill=as.factor(alphavalue)))
   coord_cartesian(ylim = c(1.06,1.09)) + 
   xlab("Alpha Value") + 
   theme_minimal() + 
+  ylab("Kappa Hat Value") + 
   theme(legend.position = "none")
 
 

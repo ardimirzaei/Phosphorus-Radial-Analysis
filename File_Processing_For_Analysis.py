@@ -56,32 +56,39 @@ def explore_and_build_table():
     all_bestnls = []
     all_atom_info = []
     pbar = tqdm(glob('DataFiles/Phos*'),leave = True, position = 0)
-    for _folder in pbar:
-        if os.path.isdir(_folder):
-            for _compound in os.listdir(_folder):
-                if os.path.isdir(f'{_folder}/{_compound}'):
-                    for _alpha_value in os.listdir(f'{_folder}/{_compound}'):
-                        file_location = f'{_folder}/{_compound}/{_alpha_value}'
-                        pbar.set_description(f'{_folder}/{_compound}/{_alpha_value}')
-                        try:
-                            bestnl = pd.read_csv(f'{file_location}/bestnl.csv')
-                            bestnl['drug'] = _folder
-                            bestnl['compound'] = _compound
-                            bestnl['alphavalue'] = _alpha_value
-                            all_bestnls.append(bestnl)
-    
-                            for _std_file in glob(f'{file_location}/xd_stat.out.*'):
-                                pbar.set_description(f'Processing: {_std_file}')
-                                file_number = int(re.findall('\d{0,3}$',_std_file)[0])
-                                atom_info = extract_info_from_outfile(file_number, _folder, _compound, _alpha_value)
-                                all_atom_info.append(atom_info)
-    
-                        except:
-                            pass
+    all_bestnls, all_atom_info = loop_through_folders(pbar, all_atom_info, all_bestnls)
+    # Because of MOSS folder
+    pbar = tqdm(glob('DataFiles/MOSS/Phos*'),leave = True, position = 0)
+    all_bestnls, all_atom_info = loop_through_folders(pbar, all_atom_info, all_bestnls)
 
     return all_bestnls, all_atom_info
 
 #%%
+
+def loop_through_folders(pbar, all_atom_info, all_bestnls):
+    for _folder in pbar:
+    if os.path.isdir(_folder):
+        for _compound in os.listdir(_folder):
+            if os.path.isdir(f'{_folder}/{_compound}'):
+                for _alpha_value in os.listdir(f'{_folder}/{_compound}'):
+                    file_location = f'{_folder}/{_compound}/{_alpha_value}'
+                    pbar.set_description(f'{_folder}/{_compound}/{_alpha_value}')
+                    try:
+                        bestnl = pd.read_csv(f'{file_location}/bestnl.csv')
+                        bestnl['drug'] = _folder
+                        bestnl['compound'] = _compound
+                        bestnl['alphavalue'] = _alpha_value
+                        all_bestnls.append(bestnl)
+
+                        for _std_file in glob(f'{file_location}/xd_stat.out.*'):
+                            pbar.set_description(f'Processing: {_std_file}')
+                            file_number = int(re.findall('\d{0,3}$',_std_file)[0])
+                            atom_info = extract_info_from_outfile(file_number, _folder, _compound, _alpha_value)
+                            all_atom_info.append(atom_info)
+
+                    except:
+                        pass
+    return all_bestnls, all_atom_info
 
 def export_files():
     print("Building All Best Nls")
