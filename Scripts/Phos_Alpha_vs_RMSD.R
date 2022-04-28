@@ -31,8 +31,8 @@ colnames(testP) <- colnames(M)
 rownames(testP) <- rownames(M)
   
 pdf(paste0("Analysis/CorrelationPlot",format(Sys.time(), '%Y%m%d'),".pdf"),   # The directory you want to save the file in
-    width = 4, # The width of the plot in inches
-    height = 4) # The height of the plot in inches
+    width = 8, # The width of the plot in inches
+    height = 8) # The height of the plot in inches
 
 corrplot(as.matrix(M),
          p.mat = as.matrix(testP),
@@ -76,7 +76,7 @@ summary(fit2)
 g <- ggplot(df,aes(y=RMSD_MAP, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
   stat_summary(fun="mean", geom="bar",position="dodge")+
   stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8) + 
-  # coord_cartesian(ylim = c(0.0382,01.40434)) + 
+  coord_cartesian(ylim = c(0.0380,0.0384)) +
   xlab("Alpha Value") + 
   ylab("RMSD MAP") + 
   theme_minimal() + 
@@ -90,7 +90,7 @@ ggsave(paste0("RMSDMAP_v_Alpha",format(Sys.time(), '%Y%m%d'),".pdf"),
 g <- ggplot(df,aes(y=KAPPA_HAT, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
   stat_summary(fun="mean", geom="bar",position="dodge")+
   stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8) + 
-  # coord_cartesian(ylim = c(0.88,0.98)) + 
+  coord_cartesian(ylim = c(0.88,0.98)) +
   xlab("Alpha Value") + 
   theme_minimal() + 
   ylab("Kappa Hat Value") + 
