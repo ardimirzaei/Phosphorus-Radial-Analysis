@@ -22,37 +22,47 @@ def extract_info_from_outfile(file_number, _folder, _compound, _alpha_value, ato
         atom_headers = ['ATOM','MONOPOLE','KAPPA','KAPPA_HAT','NET CHARGE']
     
     file_location = f'{_folder}/{_compound}/{_alpha_value}'
-
-    with open(f'{file_location}/xd_stat.out.{file_number}') as f:
-        lines = f.readlines()
-        _start = [t for t, c in enumerate(bool(re.search('TABLE 1',i)) for i in lines) if c][0]
-        _end = [t for t, c in enumerate(bool(re.search('SUM',i)) for i in lines) if c][0]
-        table_text = lines[_start:_end]
-        # Search through each line until finding the table
-        table_text = table_text[5:-1]
-        atom_info = []
-        for line in table_text:
-            # Extract table information individually
-            _atom = line[0:16].strip(' ')[0] # Change this when you start working with element more than single
-            _monopole = float(re.findall('\d\.\d{0,4}',line[16:31].strip(' '))[0])
-            _kappa = float(re.findall('\d\.\d{0,4}',line[31:48].strip(' '))[0])
-            _kappa_hat = float(re.findall('\d\.\d{0,4}',line[48:61].strip(' '))[0])
-            _netcharge = line[61:70].strip(' ') # not manipulating this yet to a number
-            atom_info.append([_atom, _monopole,_kappa,_kappa_hat, _netcharge])
-
-        atom_info = pd.DataFrame(atom_info, columns=atom_headers)
-        atom_info['N'] = file_number
-        atom_info['drug'] = _folder
-        atom_info['compound'] = _compound
-        atom_info['alphavalue'] = _alpha_value
-        f.close()
-
+    try:
+        with open(f'{file_location}/xd_stat.out.{file_number}') as f:
+            lines = f.readlines()
+            _start = [t for t, c in enumerate(bool(re.search('TABLE 1',i)) for i in lines) if c][0]
+            _end = [t for t, c in enumerate(bool(re.search('SUM',i)) for i in lines) if c][0]
+            table_text = lines[_start:_end]
+            # Search through each line until finding the table
+            table_text = table_text[5:-1]
+            atom_info = []
+            for line in table_text:
+                # Extract table information individually
+                _atom = str(re.findall('^\w{1,2}',line[0:16].strip(' '))[0]) # Change this when you start working with element more than single
+                _monopole = float(re.findall('\d\.\d{0,4}',line[16:31].strip(' '))[0])
+                _kappa = float(re.findall('\d\.\d{0,4}',line[31:48].strip(' '))[0])
+                _kappa_hat = float(re.findall('\d\.\d{0,4}',line[48:61].strip(' '))[0])
+                _netcharge = line[61:70].strip(' ') # not manipulating this yet to a number
+                atom_info.append([_atom, _monopole,_kappa,_kappa_hat, _netcharge])
+    
+            atom_info = pd.DataFrame(atom_info, columns=atom_headers)
+            atom_info['N'] = file_number
+            atom_info['drug'] = _folder
+            atom_info['compound'] = _compound
+            atom_info['alphavalue'] = _alpha_value
+            f.close()
         return(atom_info)
+    except:
+        with open("error_reporting.txt", "a+") as file_object:
+            # Append 'hello' at the end of file
+            file_object.write(f"Error in :\n{file_location}\nFile Number: {file_number}\n")
+            file_object.close()
+
+
 
 
 #%%
 
 def explore_and_build_table():
+    with open("FileMergeOutput/error_reporting.txt", "w") as file_object:
+        # Append 'hello' at the end of file
+        file_object.write("-- Error Reporting --\n")
+        file_object.close()
     all_bestnls = []
     all_atom_info = []
     pbar = tqdm(glob('DataFiles/Phos*'),leave = True, position = 0)
@@ -88,7 +98,8 @@ def loop_through_folders(pbar, all_atom_info, all_bestnls):
                                 all_atom_info.append(atom_info)
 
                         except:
-                            pass
+                            # pass
+                            print(file_location)
     return all_bestnls, all_atom_info
 
 def export_files():
@@ -131,7 +142,7 @@ def merge_and_export():
     full_data_frame = clean_bestnls.merge(clean_atom_info, left_on=['N','drug','compound','alphavalue'], right_on=['N','drug','compound','alphavalue'])
     # print(full_data_frame.head())
     print("Exporting Merge File")
-    full_data_frame.corr()
+    # full_data_frame.corr()
     full_data_frame.to_csv('FileMergeOutput/Full_DataFrame_nl_Atoms.csv')
 
 #%%
