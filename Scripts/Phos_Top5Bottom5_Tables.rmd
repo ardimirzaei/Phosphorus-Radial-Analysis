@@ -20,6 +20,7 @@ Tables are filtered for Atom as the phosphate only.
 
 ft <- df %>%
   mutate(nl =   apply(df[c("n.1.", "n.2.", "n.3.", "n.4.")], 1, paste,collapse="")) %>%
+  filter(alphavalue < 3.5) %>%
   filter(ATOM == 'P') %>%
   group_by(drug, compound, alphavalue) %>%
   arrange(RMSD_MAP) %>%
@@ -40,6 +41,7 @@ ft
 
 ft <- df %>%
   mutate(nl =   apply(df[c("n.1.", "n.2.", "n.3.", "n.4.")], 1, paste,collapse="")) %>%
+  filter(alphavalue < 3.5) %>%
   filter(ATOM == 'P') %>%
   group_by(drug, compound, alphavalue) %>%
   arrange(RMSD_MAP) %>%

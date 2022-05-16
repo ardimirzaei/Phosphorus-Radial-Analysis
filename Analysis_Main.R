@@ -8,6 +8,7 @@ library(car) #for leven's test
 library(flextable)
 # devtools::install_github("davidgohel/officedown")
 library(officedown)
+library(stringr)
 
 Sys.setenv(RSTUDIO_PANDOC="C:/Program Files/RStudio/bin/quarto/bin") # Do this in order to find the pandoc and run
 
