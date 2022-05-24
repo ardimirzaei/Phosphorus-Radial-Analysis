@@ -9,6 +9,8 @@ library(flextable)
 # devtools::install_github("davidgohel/officedown")
 library(officedown)
 library(stringr)
+library(latex2exp)
+
 
 Sys.setenv(RSTUDIO_PANDOC="C:/Program Files/RStudio/bin/quarto/bin") # Do this in order to find the pandoc and run
 
@@ -23,15 +25,17 @@ rmarkdown::render(input = 'Scripts/Phos_Top5Bottom5_Tables.rmd',
                   output_file = paste0('TopAndBottom_Tables_',format(Sys.time(), '%Y%m%d'),'.docx'),
                   output_dir = 'Analysis/')
 
-# Ranking of nl = 6666 and 6677
-rmarkdown::render(input = 'Scripts/Phos_Rankings_6666_6677.rmd',
-                  output_file = paste0('Rankings_6666_6677_',format(Sys.time(), '%Y%m%d'),'.docx'),
-                  output_dir = 'Analysis/')
+# # Ranking of nl = 6666 and 6677
+# rmarkdown::render(input = 'Scripts/Phos_Rankings_6666_6677.rmd',
+#                   output_file = paste0('Rankings_6666_6677_',format(Sys.time(), '%Y%m%d'),'.docx'),
+#                   output_dir = 'Analysis/')
 
 delete_files = FALSE
 if (trimws(readLines(".zipit"))=="del") delete_files = TRUE
 source('Scripts/Gather_and_zip_files.R')
 
+
+source('Scripts/Phos_HitAnalysis.R')
 
 # Troublw shooting
 # list.files(pattern = "*bestnl.csv", recursive = TRUE)

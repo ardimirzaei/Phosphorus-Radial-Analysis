@@ -24,14 +24,31 @@ ft <- df %>%
   filter(ATOM == 'P') %>%
   group_by(drug, compound, alphavalue) %>%
   arrange(RMSD_MAP) %>%
-  slice(1:5) %>%
-  select(drug, compound, alphavalue, nl, RMSD_MAP) %>%
+  mutate(Rank = min_rank(RMSD_MAP)) %>%
+  # slice(1:5) %>%
+  filter(Rank <=5 | nl == '6666' | nl == '6677') %>%
+  ungroup() %>%
+  select( drug, compound, nl, RMSD_MAP, Rank) %>%
+  mutate(compound = as.numeric(gsub("Compound_","",compound))) %>%
+  group_by(drug, compound) %>%
+  arrange(drug, compound) %>%
+  ungroup() %>%
+  rename(
+    `Chemical Group`  = drug,
+    `Compound` = compound,
+    `n_l` = nl
+         ) %>%
   flextable() %>%
   theme_box() %>%  
-  merge_v(j = c('drug', 'compound', 'alphavalue'))
+  merge_v(j = c('Chemical Group', 'Compound')) %>%
+   mk_par(j = 3, part = "header", value = as_paragraph(as_i("n"), as_sub("(l)")))  
 
 ft <- set_caption(ft, caption = "Top 5 scoring RMSD MAP ")
 ft <- autofit(ft) # fit_to_width(ft, max_width = 15) # autofit(ft)
+
+# color_ind <- which(d == "Red", arr.ind = TRUE)
+
+
 ft
 ```
 
