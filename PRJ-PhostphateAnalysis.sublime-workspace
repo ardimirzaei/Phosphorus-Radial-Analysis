@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"alp",
+				"alpha"
+			],
+			[
 				"col",
 				"collapse"
 			],
@@ -19,6 +23,25 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "DataFiles/Phosphate/Compound_3/3.4590/p36_prop_6_3d.cube",
+			"settings":
+			{
+				"buffer_size": 13570547,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+			]
+		},
+		{
+			"file": "DataFiles/Phosphate/Compound_1/3.4590/p1_prop_6_3d.grd",
+			"settings":
+			{
+				"buffer_size": 21031167,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -78,15 +101,20 @@
 	[
 		"/D/People/Bryson/PhosphateAnalysis",
 		"/D/People/Bryson/PhosphateAnalysis/_Archive",
+		"/D/People/Bryson/PhosphateAnalysis/DataFiles",
+		"/D/People/Bryson/PhosphateAnalysis/DataFiles/Phosphate",
+		"/D/People/Bryson/PhosphateAnalysis/DataFiles/Phosphate/Compound_1",
+		"/D/People/Bryson/PhosphateAnalysis/DataFiles/Phosphate/Compound_1/3.4590",
 		"/D/People/Bryson/PhosphateAnalysis/FileMergeOutput"
 	],
 	"file_history":
 	[
+		"/D/People/Bryson/PhosphateAnalysis/DataFiles/Phosphate/Compound_3/3.4590/p36_prop_6_3d.cube",
+		"/D/People/Bryson/PhosphateAnalysis/Scripts/Phos_Alpha_vs_RMSD.R",
 		"/D/People/Bryson/PhosphateAnalysis/File_Processing_For_Analysis.py",
 		"/D/People/Bryson/PhosphateAnalysis/Analysis_Main.R",
 		"/D/People/Bryson/PhosphateAnalysis/Scripts/Gather_and_zip_files.R",
 		"/D/People/Bryson/PhosphateAnalysis/RunExport.bat",
-		"/D/People/Bryson/PhosphateAnalysis/Scripts/Phos_Alpha_vs_RMSD.R",
 		"/D/People/Bryson/PhosphateAnalysis/DataFiles/Phosphorotriamidate/Compound_3/3.6/xd_stat.out.9",
 		"/D/People/Bryson/PhosphateAnalysis/DataFiles/Phosphorotriamidate/Compound_3/3.6/xd_stat.out.2",
 		"/D/People/Bryson/PhosphateAnalysis/DataFiles/Phosphorotriamidate/Compound_3/3.6/xd_stat.out.7",
@@ -209,6 +237,69 @@
 		{
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "DataFiles/Phosphate/Compound_3/3.4590/p36_prop_6_3d.cube",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13570547,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2406,
+								2406
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "DataFiles/Phosphate/Compound_1/3.4590/p1_prop_6_3d.grd",
+					"selected": true,
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 21031167,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -289,7 +380,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 289.0,
+	"side_bar_width": 367.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

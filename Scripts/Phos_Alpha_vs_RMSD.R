@@ -77,10 +77,17 @@ g <- ggplot(df,aes(y=RMSD_MAP, x=as.factor(alphavalue), fill=as.factor(alphavalu
   stat_summary(fun="mean", geom="bar",position="dodge")+
   stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8) + 
   coord_cartesian(ylim = c(0.0380,0.0390)) +
-  xlab("Alpha Value") + 
-  ylab("RMSD MAP") + 
+  xlab(TeX("$\\alpha$ value")) + 
+  # ylab(expression(ring(A)))
+  ylab(TeX("RMSD ($\\rho$)  $eÅ^{-3}$")) + 
   theme_minimal() + 
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme(axis.text.x = element_text(face = "bold", color = "black", 
+                           size = 12, angle = 0),
+        axis.text.y = element_text(face = "bold", color = "black", 
+                           size = 12, angle = 0),
+        axis.title = element_text(face="bold", size = 14))
+
 
 ggsave(paste0("RMSDMAP_v_Alpha",format(Sys.time(), '%Y%m%d'),".pdf"), 
   path = "./Analysis",
@@ -88,13 +95,19 @@ ggsave(paste0("RMSDMAP_v_Alpha",format(Sys.time(), '%Y%m%d'),".pdf"),
   width=8, height=8)
 
 g <- ggplot(df,aes(y=KAPPA_HAT, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
-  stat_summary(fun="mean", geom="bar",position="dodge")+
-  stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8) + 
-  coord_cartesian(ylim = c(0.80,1.10)) +
-  xlab("Alpha Value") + 
+  # stat_summary(fun="mean", geom="bar",position="dodge")+
+  geom_boxplot(outlier.colour="black", outlier.shape=16, outlier.size=2, notch=FALSE) +
+  # stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8) + 
+  # coord_cartesian(ylim = c(0.80,1.10)) +
+  xlab(TeX("$\\alpha$ value")) + 
   theme_minimal() + 
-  ylab("Kappa Hat Value") + 
-  theme(legend.position = "none")
+  ylab(TeX("$\\kappa'$ value")) + 
+  theme(legend.position = "none") +
+  theme(axis.text.x = element_text(face = "bold", color = "black", 
+                           size = 12, angle = 0),
+        axis.text.y = element_text(face = "bold", color = "black", 
+                           size = 12, angle = 0),
+        axis.title = element_text(face="bold", size = 14))
 
 
 ggsave(paste0("KappaHat_v_Alpha",format(Sys.time(), '%Y%m%d'),".pdf"), 
