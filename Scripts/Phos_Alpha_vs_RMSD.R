@@ -54,24 +54,20 @@ mtext("Correlation of alpha value", at=2.5, line=0.2, cex=2)
 dev.off()
 
 
-cat("Correlation Analysis tells us not really, but slightly\n\n")
+# cat("Correlation Analysis tells us not really, but slightly\n\n")
 
-cat("ANOVA Results\n")
+# cat("Levene's Test:\n")
+# leveneTest(RMSD_MAP~as.factor(alphavalue),df)
 
-#https://towardsdatascience.com/doing-and-reporting-your-first-anova-and-ancova-in-r-1d820940f2ef
+# fit = aov(RMSD_MAP ~ as.factor(alphavalue), df)
+# print(summary(fit))
 
-cat("Levene's Test:\n")
-leveneTest(RMSD_MAP~as.factor(alphavalue),df)
+# print(describeBy(df$RMSD_MAP, df$alphavalue))
 
-fit = aov(RMSD_MAP ~ as.factor(alphavalue), df)
-print(summary(fit))
-
-print(describeBy(df$RMSD_MAP, df$alphavalue))
-
-# Control for n value
-fit2 = aov(RMSD_MAP ~ as.factor(alphavalue) + n.1. + n.2. + n.3. + n.4., df)
-Anova(fit2, type="III")
-summary(fit2)
+# # Control for n value
+# fit2 = aov(RMSD_MAP ~ as.factor(alphavalue) + n.1. + n.2. + n.3. + n.4., df)
+# Anova(fit2, type="III")
+# summary(fit2)
 
 g <- ggplot(df,aes(y=RMSD_MAP, x=as.factor(alphavalue), fill=as.factor(alphavalue)))+
   stat_summary(fun="mean", geom="bar",position="dodge")+
