@@ -11,3 +11,7 @@ RunExport.bat
 Scripts/Phos_Rankings_6666_6677.rmd
 Scripts/full_df_corr_analysis.R
 Scripts/Gather_and_zip_files.R
+.RData
+.Rhistory
+.zipit
+error_reporting.txt
