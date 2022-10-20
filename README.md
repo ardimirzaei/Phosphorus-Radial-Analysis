@@ -8,7 +8,7 @@ Authors:
 
 Upon publication, a copy of the paper can be found here:
 
-[Placeholder]()
+[Placeholder](https://github.com/ardimirzaei/Phosphorus-Radial-Analysis)
 
 ## Running the code
 
