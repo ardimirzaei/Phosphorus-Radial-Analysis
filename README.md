@@ -1,4 +1,4 @@
-# Phosph Analysis
+# Phosphorus Radial Analysis
 This repository contains the code used for the paper:
 
 **Modified radial exponents of organic P(III) and P(V) groups for charge density refinements. A thorough ab initio approach.**
